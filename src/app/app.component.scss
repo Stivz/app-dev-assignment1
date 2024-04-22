@@ -1,0 +1,23 @@
+// .dark ion-item {
+//     // Dark mode styles
+//     color: white;
+//     background-color: black;
+//   }
+  
+//   .light ion-item {
+//     // Light mode styles
+//     color: black;
+//     background-color: white;
+//   }
+
+.dark-mode ion-item {
+    --background: black;
+    --color: var(--color-dark);
+  }
+  
+  .light-mode ion-item {
+    --background: var(--background-light);
+    --color: var(--color-light);
+  }
+
+ 

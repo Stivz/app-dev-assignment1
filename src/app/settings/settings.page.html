@@ -1,0 +1,74 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" class="ion-no-padding"></ion-back-button>
+    </ion-buttons>
+      <ion-title class="ion-text-center" id="header-title">
+        Settings
+      </ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+ 
+  <form>
+    <ion-list class="ion-no-padding">
+      <ion-item>
+        <ion-label>Username:</ion-label> {{authService.currentUser()?.username}}
+      </ion-item>
+      <ion-item>
+        <ion-label>Email:</ion-label> {{authService.currentUser()?.email}}
+      </ion-item>  
+    </ion-list>
+    <ion-item>
+    <ion-label>Select an Avatar<input type="file" (change)="onFileSelected($event)" [disabled]="hasAvatar" class="file-input"></ion-label>
+      @for (image of images; track image) {
+        <ion-avatar>
+          <img [src]="image" alt="Uploaded Image">
+        </ion-avatar>
+
+      }
+
+    </ion-item>
+    <ion-item lines="none">
+    <ion-datetime-button datetime="datetime"></ion-datetime-button>
+  </ion-item>
+<ion-modal [keepContentsMounted]="true">
+  <ng-template>
+    <ion-datetime id="datetime"></ion-datetime>
+  </ng-template>
+</ion-modal>
+  </form>
+
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div id="icons">
+      <div class="icon-container">
+        <ion-icon routerLink="/home" id="icon" name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/data" id="icon" name="stats-chart-outline"></ion-icon>
+        <span>Compare</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/map" id="icon" name="navigate-outline"></ion-icon>
+        <span>Map</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/favorites" id="icon" name="heart-outline"></ion-icon>
+        <span>Watch List</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/settings" id="icon" name="person-outline"></ion-icon>
+        <span>Settings</span>
+      </div>
+    </div>
+    
+  </ion-toolbar>
+</ion-footer>

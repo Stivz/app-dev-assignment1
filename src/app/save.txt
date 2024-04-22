@@ -1,0 +1,42 @@
+import { Component, Inject, Input, OnInit, WritableSignal, signal } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MovieService } from '../services/movie.service';
+import { MovieResult } from '../services/interfaces';
+import { IonButton, IonButtons, IonTitle, IonToolbar, IonInput, IonLabel, IonItem, IonContent } from "@ionic/angular/standalone";
+import { FormsModule } from '@angular/forms';
+@Component({
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.scss'],
+  standalone: true,
+  imports: [IonContent, IonItem, IonLabel, IonInput, IonToolbar, IonTitle, IonButtons, IonButton, FormsModule],
+})
+export class ModalComponent  implements OnInit {
+  public movie: WritableSignal<MovieResult | null> = signal(null);
+
+  constructor(public dialogRef: MatDialogRef<ModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public movieService: MovieService
+  ) { }
+
+    @Input()
+    set id(movieId: string) {
+      this.movieService.getMovieDetails(movieId).subscribe((movie) => {
+        this.movie.set(movie);
+        
+      });
+    
+  
+    }
+    cancel(): void {
+      this.dialogRef.close();
+    }
+    ngOnInit() {
+      if (this.data && this.data.id) { // Check if data and id are provided
+        this.movieService.getMovieDetails(this.data.id).subscribe((movie) => {
+          this.movie.set(movie);
+          console.log("clicked movie: ", movie)
+        });
+      }
+    }
+}

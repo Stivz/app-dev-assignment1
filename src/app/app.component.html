@@ -1,3 +1,35 @@
+
+<!-- @if (authService.currentUser() == null) {
+
+<div>
+  <a routerLink="/login">Login</a>
+  <a routerLink="/register">Register</a>
+</div>
+}
+
+@if (authService.currentUser()) {
+<div>
+  <span (click)="logout()">Logout</span>
+</div>
+
+} -->
+
+
+<!-- <ion-header>
+  <ion-toolbar>
+    <button slot="end" (click)="toggleDarkMode()">
+      <ion-icon [name]="darkModeService.darkMode ? 'moon' : 'sunny'"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header> -->
+
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>
+
+
+
+
+
+
+

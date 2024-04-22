@@ -1,0 +1,71 @@
+<ion-header>
+<ion-toolbar id="custom-toolbar">
+  <ion-title>{{movie()?.title}}</ion-title>
+   
+  <ion-buttons slot="end">
+    <ion-button (click)="cancel()">Close</ion-button>
+  </ion-buttons>
+</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-bottom" color="dark">
+   @if (movie(); as movie) {
+  <ion-list class="ion-no-padding">
+    <ion-item lines="none" class="ion-no-padding" color="dark">
+      <ion-card slot="start">
+        <img [src]="imageBaseUrl + '/w92' + movie?.poster_path" alt="poster" />
+      </ion-card>
+      <ion-icon slot="start" name="alarm" class="ion-no-padding"></ion-icon>
+      <ion-label>
+        {{ convertToHoursAndMinutes(movie.runtime) }}
+      </ion-label>
+    </ion-item>
+
+  <ion-item lines="none" color="dark">
+  <ion-label style="font-weight: bold;">
+    How to Watch
+  </ion-label>
+  </ion-item>
+  <ion-item id="custom-item" color="dark">
+    <ion-label>
+      Home Page - <a [href]="movie.homepage" target="_blank">{{movie.title}}</a>
+    </ion-label>
+  </ion-item>
+   
+    <ion-item id="custom-item" color="dark">
+      <ion-label>
+        Watch Online on Just Watch - <a target="_blank" [href]="'https://www.justwatch.com/au/movie/' + formatMovieTitle(movie.title)">{{ movie?.title }}</a>
+      </ion-label>
+    </ion-item>
+
+    <ion-item  color="dark" id="custom-item">
+      <ion-label>
+        Watch In-person at Event Cinemas - <a target="_blank"  [href]="'https://www.eventcinemas.com.au/Movie/' + formatMovieTitle(movie.title)">{{ movie?.title }}</a>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list class="ion-no-padding">
+    <ion-item lines="none" color="dark">
+    <ion-label style="font-weight: bold;">
+      Reviews
+    </ion-label>
+    </ion-item>
+
+    <ion-item color="dark" id="custom-item">
+      IMDb - <a [href]="'https://www.imdb.com/title/' + movie.imdb_id" target="_blank">{{movie.title}}</a>
+    </ion-item>
+
+    <ion-item color="dark" id="custom-item">
+      Rotten Tomatoes - <a [href]="'https://www.rottentomatoes.com/m/' + formatMovieTitleForRottenTomatoes(movie.title)" target="_blank">{{movie.title}}</a>
+    </ion-item>
+
+
+  </ion-list>
+  
+  
+ 
+
+  }
+</ion-content>

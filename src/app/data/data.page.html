@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="ion-text-center" id="header-title">data</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+ 
+
+
+  <div *ngFor="let movie of topRatedMovies; let i = index">
+    <button (click)="toggleChartVisibility(i)">Plot Chart for {{ movie.title }}</button>
+  <canvas id="barChart_{{i}}" ></canvas>
+
+  </div>
+
+  <!-- <div *ngFor="let movie of topRatedMovies">
+    <h3>Title: {{ movie.title }}</h3>
+    <p>Budget: {{ movie.budget }}</p>
+    <p>Revenue: {{ movie.revenue }}</p>
+  </div> -->
+  <!-- <h2>Total Results: {{ totalResults }}</h2>
+ 
+  <h2>Unique Genres:</h2>
+  <ul>
+      @for ( genreCount of getGenreCountsArray(); track genreCounts) {
+    <li >
+      {{ genreCount[0] }}: {{ genreCount[1] }}
+    </li>
+
+      }
+  </ul>
+
+  <canvas id="barChart" width="200px" height="200px"></canvas> -->
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div id="icons">
+      <div class="icon-container">
+        <ion-icon routerLink="/home" id="icon" name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/data" id="icon" name="stats-chart-outline"></ion-icon>
+        <span>Compare</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/map" id="icon" name="navigate-outline"></ion-icon>
+        <span>Map</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/favorites" id="icon" name="heart-outline"></ion-icon>
+        <span>Watch List</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/settings" id="icon" name="person-outline"></ion-icon>
+        <span>Settings</span>
+      </div>
+    </div>
+    
+  </ion-toolbar>
+</ion-footer>

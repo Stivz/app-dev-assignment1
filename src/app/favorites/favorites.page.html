@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+      </ion-buttons>
+    
+    <ion-title class="ion-text-center" id="header-title">
+      {{authService.currentUser()?.username}}'s Watch List
+    </ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  @for (item of favorites; track item) {
+  <ion-list class="ion-no-padding">
+ 
+    <ion-item-sliding>
+    <ion-item (click)="openModal(item.id)" id="custom-item" lines="none">
+
+      <ion-avatar slot="start">
+        <img [src]="imageBaseUrl + '/w92' + item.poster_path" alt="poster" />
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.release_date | date:'y/MM/dd' }}</p>
+      </ion-label>
+      <ion-badge slot="end">{{ item.vote_average }}</ion-badge>
+
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option color="danger" side="end" (click)="removeFromFavorites(item)">
+        <ion-icon slot="start" name="trash" ></ion-icon>
+        Delete
+      </ion-item-option>
+      <ion-item-option color="primary" side="start" button [routerLink]="['/details', item?.id]" class="custom-item">
+        <ion-icon slot="end" name="trash" ></ion-icon>
+        Details
+      </ion-item-option>
+    </ion-item-options>
+  
+  </ion-item-sliding>
+</ion-list>
+}
+@empty {
+  @if (isFavoritesEmpty()) {
+    <ion-item lines="none">
+      <ion-label class="ion-text-center">Your watch list is empty. Try adding some movies!</ion-label>
+    </ion-item>
+  }
+}
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div id="icons">
+      <div class="icon-container">
+        <ion-icon routerLink="/home" id="icon" name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/data" id="icon" name="stats-chart-outline"></ion-icon>
+        <span>Compare</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/map" id="icon" name="navigate-outline"></ion-icon>
+        <span>Map</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/favorites" id="icon" name="heart-outline"></ion-icon>
+        <span>Watch List</span>
+      </div>
+      <div class="icon-container">
+        <ion-icon routerLink="/settings" id="icon" name="person-outline"></ion-icon>
+        <span>Settings</span>
+      </div>
+    </div>
+    
+  </ion-toolbar>
+</ion-footer>
+

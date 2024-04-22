@@ -1,0 +1,14 @@
+<ion-toolbar>
+  <ion-title>
+    Bar Chart
+  </ion-title>
+</ion-toolbar>
+
+<ion-content>
+
+  @if (movie(); as movie) {
+  @for (g of movie.genres; track g.id; let isLast = $last;) {
+    <span> {{ g.name }} {{ !isLast ? '·' : '' }}</span>
+    }
+  }
+</ion-content>

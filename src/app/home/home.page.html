@@ -1,20 +1,132 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+   
+    <ion-header >
+      <ion-toolbar>
+    <div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          @for (image of images; track image) {
+              <ion-avatar slot="start" id="avatar-size">
+              <img [src]="image" alt="Uploaded Image">
+            </ion-avatar>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+          }
+            <ion-icon slot="end" (click)="toggleDarkMode()" [name]="darkModeService.darkMode ? 'moon' : 'sunny'" aria-hidden="true" color="dark" size="small"></ion-icon>
+         
+           <!-- Title -->
+        <ion-title class="ion-text-center">
+          {{authService.currentUser()?.username}}'s Trending Movies
+        </ion-title>
+        </ion-toolbar>
+      </ion-header>
+      </div>
+      <!-- <ion-button shape="round" slot="end" size="small" class="favButton" routerLink="/favorites">Favorites</ion-button> -->
+
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+    
+<ion-content>
+  
+
+
+  <ion-item lines="none">
+    <ion-searchbar show-cancel-button="focus" [debounce]="750" (ionInput)="searchMovies($event)" type="text" [(ngModel)]="searchTerm" placeholder="Search movies..."></ion-searchbar>
+  </ion-item>
+  
+    <ion-item lines="none" id="custom-item-input">
+      <ion-label>Choose Genre</ion-label>
+      <ion-select [(ngModel)]="genresArray">
+        <ion-select-option *ngFor="let item of genresArray" [value]="item.name">{{ item.name }}</ion-select-option>
+      </ion-select>
+      </ion-item>
+      <ion-radio-group allowEmptySelection="true">
+        <ion-item lines="none">
+        <ion-radio justify="start" value="recent" (click)="filterByRecent()">most recent</ion-radio>
+        <ion-radio justify="end" value="rated" (click)="filterByRated()">top rated</ion-radio>
+      </ion-item>
+      </ion-radio-group>
+      
+  @if (isLoading) {
+    <ion-list>
+      @for (i of dummyArray; track i) {
+        <ion-item lines="none" class="ion-padding-bottom" color="undefined">
+          <ion-avatar slot="start">
+            <ion-skeleton-text></ion-skeleton-text>
+          </ion-avatar>
+          <ion-skeleton-text animated style="height: 40px;" />
+        </ion-item>
+      }
+    </ion-list>
+  } @else if (error) {
+    <ion-alert header="Error" [message]="error" isOpen="true" [buttons]="['Ok']"/>
+  }
+
+  <ion-list class="ion-no-padding">
+    @for (item of movies; track item.id) {
+      <ion-item-sliding>
+      <ion-item button [routerLink]="['/details', item.id]" id="custom-item" lines="none">
+        <ion-avatar slot="start">
+          <img [src]="imageBaseUrl + '/w92' + item.poster_path" alt="poster" />
+        </ion-avatar>
+        <ion-label class="ion-text-wrap">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.release_date | date:'y' }}</p>
+        </ion-label>
+        <ion-badge slot="end">{{ item.vote_average }}</ion-badge>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="success" [routerLink]="[item]" (click)="addToFavorites(item)" [disabled]="favoritesService.isInFavorites(item)">
+          <ion-icon slot="start" name="heart"></ion-icon>
+          Watch List
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    
+    } 
+    
+    @empty {
+      @if (!isLoading) {
+        <ion-item lines="none">
+          <ion-label class="ion-text-center">No movies found</ion-label>
+        </ion-item>
+      }
+    }
+
+
+    </ion-list>
+
+
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" />
+    </ion-infinite-scroll>
+  </ion-content>
+
+
+    <ion-footer>
+      <ion-toolbar>
+        <div id="icons">
+          <div class="icon-container">
+            <ion-icon routerLink="/home" id="icon" name="home-outline"></ion-icon>
+            <span>Home</span>
+          </div>
+          <div class="icon-container">
+            <ion-icon routerLink="/data" id="icon" name="stats-chart-outline"></ion-icon>
+            <span>Compare</span>
+          </div>
+          <div class="icon-container">
+            <ion-icon routerLink="/map" id="icon" name="navigate-outline"></ion-icon>
+            <span>Map</span>
+          </div>
+          <div class="icon-container">
+            <ion-icon routerLink="/favorites" id="icon" name="heart-outline"></ion-icon>
+            <span>Watch List</span>
+          </div>
+          <div class="icon-container">
+            <ion-icon routerLink="/settings" id="icon" name="person-outline"></ion-icon>
+            <span>Settings</span>
+          </div>
+        </div>
+        
+      </ion-toolbar>
+    </ion-footer>
+

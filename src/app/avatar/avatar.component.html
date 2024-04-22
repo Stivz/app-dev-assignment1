@@ -1,0 +1,15 @@
+
+<ion-content>
+<form>
+  @for (image of images; track image) {
+  <div>
+    <ion-avatar>
+      <img [src]="image" alt="Uploaded Image">
+    </ion-avatar>
+  </div>
+}
+
+  <input type="file" (change)="onFileSelected($event)">
+  <input type="submit"(click)="submit()">
+</form>
+</ion-content>
